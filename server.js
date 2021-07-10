@@ -1,40 +1,23 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
-
-const db = require("./models");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/getactive", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
   useFindAndModify: false,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
-db.Workout.create({})
-  .then((dbWorkout) => {
-    console.log(dbWorkout);
-  })
-  .catch(({ message }) => {
-    console.log(message);
-  });
-
-db.Exercise.create({})
-  .then((dbExercise) => {
-    console.log(dbExercise);
-  })
-  .catch(({ message }) => {
-    console.log(message);
-  });
-
 // routes
-// app.use(require("./routes"));
 
 app.use(express.static("./public"));
 
