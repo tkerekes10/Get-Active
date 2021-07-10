@@ -15,12 +15,30 @@ module.exports = (app) => {
   });
 
   app.put("/api/workouts/:id", (req, res) => {
-    // const id = location.search.slice(4);
-    console.log(Workout.findById(req.params.id));
-    Workout.findByIdAndUpdate(req.params.id, {
-      day: new Date(new Date().setDate(new Date().getDate())),
-      exercises: [{}],
-    });
+    Workout.findByIdAndUpdate(
+      req.params.id,
+      {
+        day: new Date(new Date().setDate(new Date().getDate())),
+        exercises: [
+          {
+            type: req.body.type,
+            name: req.body.name,
+            weight: req.body.weight || "",
+            sets: req.body.sets || "",
+            reps: req.body.reps || "",
+            duration: req.body.duration,
+            distance: req.body.distance || "",
+          },
+        ],
+      },
+      { new: true }
+    )
+      .then((updatedWorkout) => {
+        res.status(200).json(updatedWorkout);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
   });
 
   app.get("/api/workouts", (req, res) => {
