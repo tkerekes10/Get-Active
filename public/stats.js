@@ -1,5 +1,6 @@
 function calculateTotalWeight(data) {
   const totals = [];
+  console.log(data);
 
   data.forEach((workout) => {
     const workoutTotal = workout.exercises.reduce((total, { type, weight }) => {
@@ -18,7 +19,10 @@ function calculateTotalWeight(data) {
 let data1;
 
 function populateChart(data) {
+  console.log(data);
   const durations = data.map(({ exercises }) => exercises[0].duration);
+  console.log(durations);
+
   const pounds = calculateTotalWeight(data);
 
   const line = document.querySelector("#canvas").getContext("2d");
